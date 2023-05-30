@@ -1,6 +1,8 @@
 import tkinter as tk
 import enviroment as ev
+import acter as ac
 
+p = 0
 n = 6
 sx = 50
 sy = 50
@@ -11,6 +13,10 @@ w = int((fy - sy)/6)
 
 root = tk.Tk()
 canvas = tk.Canvas(root, bg = "white")
+map = ev.map_create(n)
+a = ac.actor()
+size_x = 700
+size_y = 900
 
 def window():
     # ----------- ①Window作成 ----------- #
@@ -34,15 +40,41 @@ def window():
             canvas.create_line(sx+w*i, sy+h*(j+1),sx+w*(i+1), sy+h*(j+1) ,fill="black", width = 3, tag=slw)
     
     canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
-    canvas2 = tk.Canvas(root, bg = "white")
-    button1=tk.Button(canvas2,text="左")
-    button1.pack(side=tk.BOTTOM)
-    button2=tk.Button(canvas2,text="右")
-    button2.pack(side=tk.BOTTOM)
-    button3=tk.Button(canvas2,text="下")
-    button3.pack(side=tk.BOTTOM)
-    button4=tk.Button(canvas2,text="上")
-    button4.pack(side=tk.BOTTOM)
+    button1=tk.Button(canvas,text="左",width=10,height=3,command=move_left)
+    button1.place(x = size_x/2-2*w, y = fy + h)
+    button2=tk.Button(canvas,text="右",width=10,height=3,command=move_right)
+    button2.place(x = size_x/2-w, y = fy + h)
+    button3=tk.Button(canvas,text="下",width=10,height=3,command=move_down)
+    button3.place(x = size_x/2, y = fy + h)
+    button4=tk.Button(canvas,text="上",width=10,height=3,command=move_up)
+    button4.place(x = size_x/2+w, y = fy + h)
+
+def finish():
+    if a.position() == 35:
+        t = tk.Text(canvas,height=1, width=8,font=('Times New Roman', 40, 'bold'))
+        t.place(x = 300,y = 300)
+        t.insert(1.0,'Finish')
+        canvas.delete('act')
+        canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
+        a.restart()
+
+def move_up():
+    a.move_up(canvas,map,n,h)
+    finish()
+
+def move_down():
+    a.move_down(canvas,map,n,h)
+    finish()
+
+def move_right():
+    a.move_right(canvas,map,w)
+    finish()
+
+def move_left():
+    a.move_left(canvas,map,w)
+    finish()
+
+
 def make(map):
     ev.map_view(map,n)
     for m in range(len(map)):
@@ -58,36 +90,8 @@ def make(map):
     #canvas.itemconfig("lh02", fill="white")
     #canvas.itemconfig("lw01", fill="white")
     #canvas.itemconfig("lw02", fill="white")
-def start():
-    return 0
-def move(map):
-    p = start()
-    pre = p
-    m = int(input())
-    #0 上
-    #1 下
-    #2 右
-    #3 左
-    if m == 0  and map[p][3] == 0:
-        p -= n
-        canvas.move("act",0, -h)
-    elif m == 1  and map[p][2] == 0:
-        p += n
-        canvas.move("act",0, h)
-    elif m == 2  and map[p][1] == 0:
-        p += 1
-        canvas.move("act",-w, 0)
-    elif m == 3  and map[p][0] == 0:
-        p -= 1
-        canvas.move("act", w, 0)
-    else:
-        print('not move')
-    return p
     
-
 if __name__ == '__main__':
     window()
-    map = ev.map_create(n)
     make(map)
-    move(map)
     root.mainloop()
