@@ -1,4 +1,5 @@
 import tkinter as tk
+import enviroment as ev
 
 
 def Environment():
@@ -32,7 +33,11 @@ def window():
             slw = "lw" + str(i) + str(j)
             canvas.create_line(sx+w*i, sy+h*j,sx+w*i, sy+h*(j+1) ,fill="black", width = 3, tag=slh)
             canvas.create_line(sx+w*i, sy+h*j,sx+w*(i+1), sy+h*j ,fill="black", width = 3, tag=slw)
-    canvas.itemconfig("lh00", fill="white")
+    canvas.itemconfig("lh12", fill="white")
+    canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
+
+def change_field():
+
 if __name__ == '__main__':
     Environment()
     root = tk.Tk()
