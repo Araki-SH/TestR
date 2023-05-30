@@ -27,8 +27,8 @@ def window():
     lw = []
     for i in range(n):
         for j in range(n):
-            slh = "lh" + str(i) + str(j)
-            slw = "lw" + str(i) + str(j)
+            slh = "lh" + str(j) + str(i)
+            slw = "lw" + str(j) + str(i)
             canvas.create_line(sx+w*(i+1), sy+h*j,sx+w*(i+1), sy+h*(j+1) ,fill="black", width = 3, tag=slh)
             canvas.create_line(sx+w*i, sy+h*(j+1),sx+w*(i+1), sy+h*(j+1) ,fill="black", width = 3, tag=slw)
     
@@ -37,16 +37,20 @@ def window():
 def change_field():
     map = ev.map_create(n)
     ev.map_view(map)
-    '''for m in range(len(map)):
+    for m in range(len(map)):
+        print(m)
         if map[m][1] != 1:
-            print(m,"lh"+str(int(m/(n+1)))+str(m%(n+1)))
-            canvas.itemconfig("lh"+str(int(m/(n+1)))+str(m%(n+1)), fill="white")
+            print(m,"lh"+str(int(m/(n)))+str(m%(n)))
+            canvas.itemconfig("lh"+str(int(m/(n)))+str(m%(n)), fill="white")
         if map[m][2] != 1:
-            print(m,"lw"+str(int(m/(n+1)))+str(m%(n+1)))
-            canvas.itemconfig("lw"+str(int(m/(n+1)))+str(m%(n+1)), fill="white")
-    '''
-    canvas.itemconfig("lh01", fill="white")
-    canvas.itemconfig("lh02", fill="white")
+            print(m,"lw"+str(int(m/(n)))+str(m%(n)))
+            canvas.itemconfig("lw"+str(int(m/(n)))+str(m%(n)), fill="white")
+            #'''
+    #canvas.itemconfig("lh01", fill="white")
+    #canvas.itemconfig("lh02", fill="white")
+    #canvas.itemconfig("lw01", fill="white")
+    #canvas.itemconfig("lw02", fill="white")
+    
 if __name__ == '__main__':
     window()
     change_field()

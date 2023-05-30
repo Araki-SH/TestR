@@ -14,7 +14,7 @@ def map_range(map_c):
             map_c[m][0] = 1
         if m % 6 == 5:
             map_c[m][1] = 1
-        if m > 30:
+        if m >= 30:
             map_c[m][2] = 1
     return map_c
 
@@ -27,14 +27,14 @@ def map_create(n):
     for i in range(n):
         map_part = []
         for j in range(n):
-            r = rn.randint(0,2)
-            if r == 0:
+            r = rn.randint(0,3)
+            if r == 0 or j == 5  or i == 5:
                 map_c.append([0,0,0,0])
                 map_part.append([0,0,0,0])
-            elif r == 1:
+            elif r % 2 == 1:
                 map_c.append([0,0,1,0])
                 map_part.append([0,0,1,0])
-            elif r == 2:
+            elif r % 2 == 0:
                 map_c.append([0,1,0,0])
                 map_part.append([0,1,0,0])
         map_test.append(map_part)
