@@ -32,7 +32,7 @@ def map_create(n):
         map_part = []
         for j in range(n):
             r = rn.randint(0,3)
-            if r == 0 or j == 5  or i == 5:
+            if r == 0 or j == n-1  or i == n-1:
                 map_c.append([0,0,0,0])
                 map_part.append([0,0,0,0])
             elif r % 2 == 1:

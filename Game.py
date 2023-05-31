@@ -3,16 +3,17 @@ import enviroment as ev
 import acter as ac
 
 p = 0
-n = 6
+n = 3
 sx = 50
 sy = 50
 fx = 600 + sx
 fy = 600 + sy
-h = int((fx - sx)/6)
-w = int((fy - sy)/6)
+h = int((fx - sx)/n)
+w = int((fy - sy)/n)
 
 root = tk.Tk()
 canvas = tk.Canvas(root, bg = "white")
+t = tk.Text(canvas,height=1, width=10,font=('Times New Roman', 40, 'bold'))
 map = ev.map_create(n)
 a = ac.actor()
 size_x = 700
@@ -41,37 +42,36 @@ def window():
     
     canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
     button1=tk.Button(canvas,text="左",width=10,height=3,command=move_left)
-    button1.place(x = size_x/2-2*w, y = fy + h)
+    button1.place(x = size_x/2-300, y = 3*size_y/4)
     button2=tk.Button(canvas,text="右",width=10,height=3,command=move_right)
-    button2.place(x = size_x/2-w, y = fy + h)
+    button2.place(x = size_x/2-150, y = 3*size_y/4)
     button3=tk.Button(canvas,text="下",width=10,height=3,command=move_down)
-    button3.place(x = size_x/2, y = fy + h)
+    button3.place(x = size_x/2, y = 3*size_y/4)
     button4=tk.Button(canvas,text="上",width=10,height=3,command=move_up)
-    button4.place(x = size_x/2+w, y = fy + h)
+    button4.place(x = size_x/2+150, y = 3*size_y/4)
 
 def finish():
-    if a.position() == 35:
-        t = tk.Text(canvas,height=1, width=8,font=('Times New Roman', 40, 'bold'))
-        t.place(x = 300,y = 300)
+    if a.position() == n*n-1:
+        t.get("1.0", "end")
         t.insert(1.0,'Finish')
         canvas.delete('act')
         canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
         a.restart()
 
 def move_up():
-    a.move_up(canvas,map,n,h)
+    a.move_up(canvas,map,n,h,t)
     finish()
 
 def move_down():
-    a.move_down(canvas,map,n,h)
+    a.move_down(canvas,map,n,h,t)
     finish()
 
 def move_right():
-    a.move_right(canvas,map,w)
+    a.move_right(canvas,map,w,t)
     finish()
 
 def move_left():
-    a.move_left(canvas,map,w)
+    a.move_left(canvas,map,w,t)
     finish()
 
 
@@ -93,5 +93,6 @@ def make(map):
     
 if __name__ == '__main__':
     window()
+    t.place(x = 250,y = 800)
     make(map)
     root.mainloop()
