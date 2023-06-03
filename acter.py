@@ -1,11 +1,11 @@
 class actor:
-
     def __init__(self):
-        self.posi = 0
-        self.mv = True
-        self.poli = [0,0,0,0]
-        self.count = 0
+        self.posi = 0 #position
+        self.mv = True #can move
+        self.poli = [0,0,0,0] #policy 左　右　下　上
+        self.count = 0 #step count
 
+    #return position
     def position(self):
         return self.posi
 
@@ -55,13 +55,16 @@ class actor:
             t.insert(1.0,'do not move')
         self.count_up()
 
+    #resume 
     def resume(self,canvas,sx,sy,w,h,):
         self.posi = 0
         self.mv = True
         canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
 
+    #restart
     def restart(self):
         self.mv = True
 
+    #stop
     def stop(self):
         self.mv = False

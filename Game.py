@@ -4,21 +4,36 @@ import acter as ac
 import policy as po
 import time 
 
-p = 0
-n = 6
-sx = 50
-sy = 50
-fx = 600 + sx
-fy = 600 + sy
-h = int((fx - sx)/n)
-w = int((fy - sy)/n)
+p = 0 #position
+n = 6 #map_mas_nuber
+sx = 50 #left_up x point 
+sy = 50 #left_up y point 
+fx = 600 + sx #right_down x point
+fy = 600 + sy #right_down y point
+h = int((fx - sx)/n) #mass heigth
+w = int((fy - sy)/n) #mass weigth
 
+#canvase
 root = tk.Tk()
 canvas = tk.Canvas(root, bg = "white")
+#text
 t = tk.Text(canvas,height=1, width=10,font=('Times New Roman', 40, 'bold'))
 tn = tk.Text(canvas,height=1, width=5,font=('Times New Roman', 40, 'bold'))
+#map 
+#n*nの1次元行列
+#左上 0  (6*6の場合)
+# 0  1  2  3  4  5
+# 6  7  8  9 10 11
+#・・・
+#30 31 32 33 34 35
+#35 がゴール
+#[0,0,0,0] 左　右　下　右
 map = ev.map_create(n)
+
+#actor
 a = ac.actor()
+
+#window size
 size_x = 700
 size_y = 900
 
@@ -57,11 +72,18 @@ def window():
     button4.place(x = size_x/2+150, y = 3*size_y/4)
 
 def finish():
+    #last mass
     if a.position() == n*n-1:
+        #text
         t.delete("1.0", "end")
         t.insert(1.0,'Finish')
+        #actor delete
         canvas.delete('act')
+
+        #resume
         #a.resume(canvas,sx,sy,w,h)
+        
+        #stop
         a.stop()
 
 def move_up():
@@ -99,8 +121,11 @@ def make(map):
     #canvas.itemconfig("lw02", fill="white")
     
 def move():
+    #policy make
     a.poli = po.policy_set(a.poli)
+    #move select
     m = po.policy_select(a.poli)
+    #text
     tn.delete("1.0", "end")
     tn.insert(1.0,str(a.count) + ' : ' + str(m))
     if m == 0:
@@ -113,6 +138,7 @@ def move():
         move_left()
     else:
         pass
+    #after 100mm next move
     if a.mv == True and a.count <= 500:
         canvas.after(100,move)
     else:
@@ -122,8 +148,8 @@ if __name__ == '__main__':
     window()#make filed
     t.place(x = 250,y = 800)#make text box
     tn.place(x = 50,y = 800)#make text box
-    tn.insert(1.0,'0 : 0')
+    tn.insert(1.0,'0 : 0')#text
     make(map) #make road map 
-    ev.map_view(map,n)
-    canvas.after(100,move)
+    ev.map_view(map,n)#map 
+    canvas.after(100,move)#move start
     root.mainloop()
