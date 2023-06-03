@@ -1,49 +1,67 @@
 class actor:
 
     def __init__(self):
-        self.p = 0
+        self.posi = 0
+        self.mv = True
+        self.poli = [0,0,0,0]
+        self.count = 0
 
     def position(self):
-        return self.p
+        return self.posi
 
     def position_change(self,m):
-        self.p += m
+        self.posi += m
 
+    def count_up(self):
+        self.count += 1
+    
     def move_up(self,canvas,map,n,h,t):
-        t.get("1.0", "end")
-        if map[self.p][3] != 1:
+        t.delete("1.0", "end")
+        if map[self.posi][3] != 1 and self.mv == True:
             self.position_change(-n)
             canvas.move("act",0, -h)
             t.insert(1.0,'move up')
         else:
             t.insert(1.0,'do not move')
+        self.count_up()
 
     def move_down(self,canvas,map,n,h,t):
-        t.get("1.0", "end")
-        if map[self.p][2] != 1:
+        t.delete("1.0", "end")
+        if map[self.posi][2] != 1 and self.mv == True:
             self.position_change(n)
             canvas.move("act",0, h)
             t.insert(1.0,'move down')
         else:
             t.insert(1.0,'do not move')
+        self.count_up()
 
     def move_right(self,canvas,map,w,t):
-        t.get("1.0", "end")
-        if map[self.p][1] != 1:
+        t.delete("1.0", "end")
+        if map[self.posi][1] != 1 and self.mv == True:
             self.position_change(1)
             canvas.move("act",w, 0)
             t.insert(1.0,'move right')
         else:
             t.insert(1.0,'do not move')
+        self.count_up()
 
     def move_left(self,canvas,map,w,t):
-        t.get("1.0", "end")
-        if map[self.p][0] != 1:
+        t.delete("1.0", "end")
+        if map[self.posi][0] != 1 and self.mv == True:
             self.position_change(-1)
             canvas.move("act",-w, 0)
             t.insert(1.0,'move left')
         else:
             t.insert(1.0,'do not move')
+        self.count_up()
+
+    def resume(self,canvas,sx,sy,w,h,):
+        self.posi = 0
+        self.mv = True
+        canvas.create_oval(sx+w/4, sy+h/4, sx+3*w/4, sy+3*h/4, fill="red",tags='act')
 
     def restart(self):
-        self.p = 0
+        self.mv = True
+
+    def stop(self):
+        self.mv = False
