@@ -37,6 +37,9 @@ a = ac.actor()
 size_x = 700
 size_y = 900
 
+#finish times
+finish_times = 0
+
 def window():
     # ----------- ①Window作成 ----------- #
     root.title('MAP')   # 画面タイトル設定
@@ -139,7 +142,7 @@ def move():
     else:
         pass
     #after 100mm next move
-    if a.mv == True and a.count <= 500:
+    if a.mv == True and a.count <= finish_times:
         canvas.after(100,move)
     else:
         finish()
